@@ -15,18 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # Import necessary modules
-from django.contrib import admin  # Django admin module
-from django.urls import path       # URL routing
-from authentification.views import *  # Import views from the authentication app
-from django.conf import settings   # Application settings
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns  # Static files serving
+from django.contrib import admin
+from django.urls import path
+from authentification.views import *  # Assuming this imports the views you need
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 
 # Define URL patterns
 urlpatterns = [
-    path('', home, name="recipes"),      # Home page
-    path("admin/", admin.site.urls),          # Admin interface
-    path('login/', login_page, name='login_page'),    # Login page
+    path('', home, name="recipes"),        # Home page
+    path('home/', home, name='home'),      # Explicitly define /home/ URL
+    path("admin/", admin.site.urls),       # Admin interface
+    path('login/', login_page, name='login_page'),  # Login page
     path('register/', register_page, name='register'),  # Registration page
 ]
 

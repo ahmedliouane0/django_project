@@ -40,35 +40,44 @@ def login_page(request):
 
 # Define a view function for the registration page
 def register_page(request):
-    # Check if the HTTP request method is POST (form submission)
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
+        email = request.POST.get('email')  # Add email field
         password = request.POST.get('password')
-        
-        # Check if a user with the provided username already exists
-        user = User.objects.filter(username=username)
-        
-        if user.exists():
-            # Display an information message if the username is taken
-            messages.info(request, "Username already taken!")
+        confirm_password = request.POST.get('confirm_password')
+
+        # Ensure all fields are filled
+        if not all([first_name, last_name, username, email, password, confirm_password]):
+            messages.error(request, "All fields are required!")
             return redirect('/register/')
-        
-        # Create a new User object with the provided information
+
+        # Check if passwords match
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match!")
+            return redirect('/register/')
+
+        # Check if username already exists
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already taken!")
+            return redirect('/register/')
+
+        # Check if email already exists
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "Email already in use!")
+            return redirect('/register/')
+
+        # Create and save the user
         user = User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
-            username=username
+            username=username,
+            email=email,  # Store email
+            password=password
         )
-        
-        # Set the user's password and save the user object
-        user.set_password(password)
-        user.save()
-        
-        # Display an information message indicating successful account creation
-        messages.info(request, "Account created Successfully!")
-        return redirect('/register/')
-    
-    # Render the registration page template (GET request)
+
+        messages.success(request, "Account created successfully! You can now log in.")
+        return redirect('/login/')  # Redirect to login page after successful registration
+
     return render(request, 'register.html')

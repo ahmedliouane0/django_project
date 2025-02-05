@@ -9,56 +9,64 @@
 <body>
     <div class="container mt-5">
         <!-- Registration form -->
-        <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+        <form class="col-6 mx-auto card p-3 shadow-lg" method="post">
             {% csrf_token %}  <!-- CSRF token for security -->
 
             <!-- Registration form heading -->
-            <h1 style="text-align: center;"><span style="color: green;">register</span></h1>
-            <h3>Register</h3>
+            <h1 class="text-center"><span style="color: green;">Register</span></h1>
+            <h3>Create an Account</h3>
             <hr>
 
             <!-- Display error/success messages -->
             {% if messages %}
-            <div class="alert alert-primary" role="alert">
                 {% for message in messages %}
-                {{ message }}
+                <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}" role="alert">
+                    {{ message }}
+                </div>
                 {% endfor %}
-            </div>
             {% endif %}
 
             <!-- First Name input field -->
             <div class="form-group">
-                <label for="exampleInputEmail1">First name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                    placeholder="Enter First name" name="first_name" required>
+                <label for="first_name">First Name</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter First Name" required>
             </div>
 
             <!-- Last Name input field -->
             <div class="form-group">
-                <label for="exampleInputEmail1">Last name</label>
-                <input type="text" name="last_name" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" placeholder="Enter Last name" required>
+                <label for="last_name">Last Name</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter Last Name" required>
+            </div>
+
+            <!-- Email input field -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
             </div>
 
             <!-- Username input field -->
             <div class="form-group">
-                <label for="exampleInputEmail1">Username</label>
-                <input type="text" class="form-control" name="username" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" placeholder="Enter email" required>
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username" required>
             </div>
 
             <!-- Password input field -->
             <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" name="password" id="exampleInputPassword1"
-                    placeholder="Password" required>
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+            </div>
+
+            <!-- Confirm Password input field -->
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
             </div>
 
             <!-- Link to login page for users who already have an account -->
-            <p>Already have an account <a href="/login/">Login</a> </p>
+            <p>Already have an account? <a href="/login/">Login</a></p>
 
             <!-- Submit button -->
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
         </form>
     </div>
 </body>

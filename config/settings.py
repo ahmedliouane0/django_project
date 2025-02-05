@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django_db',
         'USER': 'root',  
-        'PASSWORD': '1762002',  
+        'PASSWORD': '',  
         'HOST': '127.0.0.1',  
         'PORT': '3306',  
 
@@ -137,3 +137,5 @@ STATICFILES_DIR = {
 }
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public/static')
 MEDIA_URL = '/media/'
+
+LOGIN_REDIRECT_URL = '/home/'
