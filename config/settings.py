@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 import pymysql
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentification',
+    'bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'templates/')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,6 +84,9 @@ DATABASES = {
         'PASSWORD': '',  
         'HOST': '127.0.0.1',  
         'PORT': '3306',  
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        }
 
     }
 }
@@ -132,10 +136,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import os 
 STATIC_URL = '/static/'
 STATIC_ROOT= os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIR = {
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'public/static')
-}
+]
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public/static')
 MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/home/'
+AUTH_USER_MODEL = 'authentification.User'

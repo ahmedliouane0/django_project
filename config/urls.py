@@ -24,6 +24,7 @@ from django.conf.urls.static import static
 
 # Define URL patterns
 urlpatterns = [
+    
     path('', home, name="recipes"),        # Home page
     path('home/', home, name='home'),      # Explicitly define /home/ URL
     path("admin/", admin.site.urls),       # Admin interface

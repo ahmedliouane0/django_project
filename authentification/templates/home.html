@@ -3,32 +3,193 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title style="color: green">Welcome????</title>
+    <title>Home</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
     <style>
-      .container {
-        text-align: center;
-        margin: 100px auto;
-        max-width: 500px;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      :root {
+        --primary-blue: #0056b3;
+        --light-blue: #007bff;
       }
 
-      h1 {
-        color: green;
-        font-weight: bold;
+      .cover-container {
+        height: 100vh;
+        background: linear-gradient(
+            rgba(0, 86, 179, 0.9),
+            rgba(0, 123, 255, 0.8)
+          ),
+          url("https://source.unsplash.com/random/1920x1080/?blue,sky")
+            center/cover no-repeat;
+        color: white;
       }
-
-      img {
-        width: 60%;
+      .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: var(--primary-blue);
+      }
+      .btn-outline-light:hover {
+        background-color: var(--light-blue);
+        border-color: var(--light-blue);
+      }
+      .navbar {
+        background-color: rgba(0, 86, 179, 0.95) !important;
+      }
+      .features-section {
+        background-color: white;
+      }
+      .footer-custom {
+        background-color: var(--primary-blue);
+        color: white;
+      }
+      .btn-primary {
+        background-color: var(--primary-blue);
+        border-color: var(--primary-blue);
+      }
+      .btn-primary:hover {
+        background-color: var(--light-blue);
+        border-color: var(--light-blue);
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <!-- Page heading -->
-      <h1>Welcome????</h1>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Bootstrap_logo.svg"
+            alt="Logo"
+            width="35"
+            height="37"
+            class="d-inline-block align-text-top"
+          />
+          Bootstrap
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login_page' %}">Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="cover-container d-flex align-items-center">
+      <div class="container text-center">
+        <h1 class="display-2 mb-4">Welcome</h1>
+        <p class="lead mb-5">
+          Discover amazing possibilities with our innovative solutions.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+          <a href="#" class="btn btn-primary btn-lg px-4 me-3">Get Started</a>
+          <a href="#" class="btn btn-outline-light btn-lg px-4">Learn More</a>
+        </div>
+      </div>
     </div>
+
+    <!-- Features Section -->
+    <div class="features-section py-5">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-md-4 mb-4">
+            <div class="feature-icon">
+              <i class="fas fa-rocket"></i>
+            </div>
+            <h3>Fast & Reliable</h3>
+            <p class="text-muted">
+              Lightning-fast performance that you can count on.
+            </p>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Secure</h3>
+            <p class="text-muted">
+              Your data is protected with enterprise-grade security.
+            </p>
+          </div>
+          <div class="col-md-4 mb-4">
+            <div class="feature-icon">
+              <i class="fas fa-headset"></i>
+            </div>
+            <h3>24/7 Support</h3>
+            <p class="text-muted">
+              Our team is always here to help you succeed.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-custom py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>About Us</h5>
+            <p>
+              We're dedicated to providing the best service to our customers.
+            </p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <h5>Connect With Us</h5>
+            <div class="social-links">
+              <a href="#" class="text-light me-3"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a href="#" class="text-light me-3"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="text-light me-3"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a href="#" class="text-light"
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.1)" />
+        <div class="text-center">
+          <p class="mb-0">&copy; 2025 Your Company. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <%block %>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   </body>
 </html>
