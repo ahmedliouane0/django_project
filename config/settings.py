@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 import pymysql
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentification',
     'bootstrap5',
+    
 ]
 
 MIDDLEWARE = [
@@ -50,6 +53,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    
+
+
+
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -142,6 +150,11 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'public/static')
 MEDIA_URL = '/media/'
+LOGIN_URL = '/login/'
 
+LOGIN_REDIRECT_URL = "welcome_user"
 LOGIN_REDIRECT_URL = '/home/'
 AUTH_USER_MODEL = 'authentification.User'
+
+
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')

@@ -93,13 +93,24 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
             </li>
+    
+            {% if request.session.username %}
+            <li class="nav-item">
+              <span class="nav-link">Welcome, <strong>{{ request.session.username }}</strong></span>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+            {% else %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'login_page' %}">Login</a>
             </li>
-          </ul>
-        </div>
+            {% endif %}
+          </ul> 
+        </div> 
       </div>
     </nav>
+    
 
     <!-- Hero Section -->
     <div class="cover-container d-flex align-items-center">
@@ -109,7 +120,7 @@
           Discover amazing possibilities with our innovative solutions.
         </p>
         <div class="d-flex justify-content-center gap-3">
-          <a href="#" class="btn btn-primary btn-lg px-4 me-3">Get Started</a>
+          <a href="{% url 'login_page' %}" class="btn btn-primary btn-lg px-4 me-3">Get Started</a>
           <a href="#" class="btn btn-outline-light btn-lg px-4">Learn More</a>
         </div>
       </div>

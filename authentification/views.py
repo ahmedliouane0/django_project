@@ -5,79 +5,167 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import *
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from .models import Language
+import requests
+from django.conf import settings
+from django.http import JsonResponse
+import json
+from openai import OpenAI
+import os
+from dotenv import load_dotenv
 
-# Define a view function for the home page
+ 
 def home(request):
-    return render(request, 'home.html')
-
-# Define a view function for the login page
-def login_page(request):
-    # Check if the HTTP request method is POST (form submission)
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        # Check if a user with the provided username exists
-        if not User.objects.filter(username=username).exists():
-            # Display an error message if the username does not exist
-            messages.error(request, 'Invalid Username')
-            return redirect('/login/')
-        
-        # Authenticate the user with the provided username and password
-        user = authenticate(username=username, password=password)
-        
-        if user is None:
-            # Display an error message if authentication fails (invalid password)
-            messages.error(request, "Invalid Password")
-            return redirect('/login/')
-        else:
-            # Log in the user and redirect to the home page upon successful login
-            login(request, user)
-            return redirect('/home/')
+    user_id = request.session.get('user_id')
+    username = request.session.get('username')
     
-    # Render the login page template (GET request)
-    return render(request, 'login.html')
+    context = {
+        'user_id': user_id,
+        'username': username
+    }
 
-# Define a view function for the registration page
+    return render(request, 'home.html',context)
+
+
+from django.contrib.auth import authenticate, login, logout
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)  # Log in the user
+            request.session["username"] = username  # Store username in session
+            return redirect("welcome_user")  
+        
+        else:
+            return render(request, "login.html", {"error": "Invalid username or password."})
+
+    return render(request, "login.html")
+
+
+
 def register_page(request):
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         username = request.POST.get('username')
-        email = request.POST.get('email')  # Add email field
+        email = request.POST.get('email')  
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
-        # Ensure all fields are filled
+        
         if not all([first_name, last_name, username, email, password, confirm_password]):
             messages.error(request, "All fields are required!")
             return redirect('/register/')
 
-        # Check if passwords match
         if password != confirm_password:
             messages.error(request, "Passwords do not match!")
             return redirect('/register/')
 
-        # Check if username already exists
+        
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already taken!")
             return redirect('/register/')
 
-        # Check if email already exists
+        
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email already in use!")
             return redirect('/register/')
 
-        # Create and save the user
+        
         user = User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
             username=username,
-            email=email,  # Store email
+            email=email,  
             password=password
         )
 
         messages.success(request, "Account created successfully! You can now log in.")
-        return redirect('/login/')  # Redirect to login page after successful registration
+        return redirect('/login/')  
 
     return render(request, 'register.html')
+
+
+def logout_view(request):
+    logout(request)  
+    request.session.flush() 
+    messages.success(request, "Logged out successfully!")
+    return redirect('/login/')
+
+@login_required(login_url="login_page") 
+def welcome_user(request):
+    # Fetch all languages 
+    languages = Language.objects.all()
+    
+    context = {
+        'languages': languages,
+        
+    }
+    
+    return render(request, 'welcomeuser.html', context)
+
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Article, Language
+
+@login_required(login_url="login_page")
+def process_data(request):
+    if request.method == 'POST':
+        keyword = request.POST.get('word', '').strip()
+        subject = request.POST.get('subject', '').strip()
+        language_id = request.POST.get('language', '').strip()
+
+        if not keyword or not subject or not language_id:
+            messages.error(request, "All fields are required and cannot contain only spaces!")
+            return redirect('welcome_user')
+
+        try:
+            language = Language.objects.get(id=language_id)
+        except Language.DoesNotExist:
+            messages.error(request, "Selected language is invalid.")
+            return redirect('welcome_user')
+
+        Article.objects.create(
+            keyword=keyword,
+            subject=subject,
+            source_language=language,
+            user=request.user
+        )
+
+        messages.success(request, "Article created successfully!")
+        return redirect('welcome_user')
+
+    return redirect('welcome_user')
+
+
+
+def form_view(request):
+    languages = Language.objects.all()
+    return render(request, "welcomeuser.html", {"languages": languages})
+
+
+@login_required
+def  account_view(request):
+    return render(request,"account_info.html",{'User' : request.user})
+
+@login_required
+def delete_account_confirmation(request):
+    return render(request, 'delete_confirmation.html')
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        logout(request) 
+        user.delete()
+        return redirect('/')      
+    return redirect('delete_account')  
+
+

@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
+from django.core.exceptions import ValidationError
+
 
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
@@ -18,19 +20,23 @@ class User(AbstractUser):
         db_table = 'users'
 
 class Language(models.Model):
-    code = models.CharField(max_length=10, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    code = models.CharField(max_length=10,unique=True)
     nom = models.CharField(max_length=100)
     
     def get_grammar_rules(self):
         pass
+
+    def __str__(self):
+        return self.nom 
     
     class Meta:
         db_table = 'languages'
 
 class Article(models.Model):
     id = models.AutoField(primary_key=True)  
-    titre = models.CharField(max_length=200)
-    content = models.TextField()
+    keyword = models.CharField(max_length=200,null=False,blank=False)
+    subject = models.TextField(null=False, blank=False)
     créer_le = models.DateTimeField(auto_now_add=True)
     modifier_le = models.DateTimeField(auto_now=True)
     is_translated = models.BooleanField(default=False)
@@ -47,7 +53,7 @@ class Article(models.Model):
     on_delete=models.CASCADE,
     related_name='articles'
 )
-    
+   
     def get_errors(self):
         pass
         

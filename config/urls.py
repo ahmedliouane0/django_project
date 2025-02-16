@@ -17,20 +17,29 @@ Including another URLconf
 # Import necessary modules
 from django.contrib import admin
 from django.urls import path
-from authentification.views import *  # Assuming this imports the views you need
+from authentification.views import *  
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 
-# Define URL patterns
 urlpatterns = [
     
-    path('', home, name="recipes"),        # Home page
-    path('home/', home, name='home'),      # Explicitly define /home/ URL
-    path("admin/", admin.site.urls),       # Admin interface
-    path('login/', login_page, name='login_page'),  # Login page
-    path('register/', register_page, name='register'),  # Registration page
-]
+    path('', home, name="recipes"),        
+    path('home/', home, name='home'),      
+    path("admin/", admin.site.urls),       
+    path('login/', login_view, name='login_page'),  
+    path('register/', register_page, name='register'), 
+    path('logout/', logout_view, name='logout'),
+    path("welcome/", welcome_user, name="welcome_user"),
+    path('process-data/', process_data, name='process_data'),
+    path("your-form-url/", form_view, name="form-page"),  
+    path('account/', account_view, name='account'), 
+    path('delete-account/confirm/', delete_account, name='delete_account_confirm'),
+    path('delete-account/', delete_account_confirmation, name='delete_account'),
+   
+    
+    
+    ]
 
 # Serve media files if DEBUG is True (development mode)
 if settings.DEBUG:

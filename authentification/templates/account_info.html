@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gradient-to-br from-gray-50 to-gray-100">
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+      <div
+        class="w-64 bg-gradient-to-b from-blue-600 to-blue-700 text-white min-h-screen flex flex-col shadow-xl"
+      >
+        <div class="p-6 flex-1">
+          <h1 class="font-bold text-2xl mb-8 tracking-tight">MyApp</h1>
+          <div class="space-y-4">
+            <div
+              class="border-b border-blue-500/30 pb-4 mb-4 backdrop-blur-sm bg-blue-600/10 rounded-lg p-4"
+            >
+              <p class="text-sm text-blue-200 mb-1">Logged in as:</p>
+              <p class="font-semibold text-lg">{{ user.username }}</p>
+            </div>
+            <a
+              href="{% url 'home' %}"
+              class="flex items-center py-3 px-4 hover:bg-blue-500 rounded-lg transition-all duration-200 transform hover:translate-x-1"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-3"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+                />
+              </svg>
+              <span class="font-medium">Home</span>
+            </a>
+            <a
+              href="{% url 'account' %}"
+              class="flex items-center py-3 px-4 bg-blue-500 rounded-lg transition-all duration-200"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-3"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              <span class="font-medium">Account</span>
+            </a>
+            <a
+              href="{% url 'welcome_user' %}"
+              class="block py-2 px-4 hover:bg-blue-700 rounded transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 inline-block mr-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Generate an Article
+            </a>
+          </div>
+        </div>
+
+        <!-- Logout button at the bottom -->
+        <div class="p-6 mt-auto border-t border-blue-500/30">
+          <a
+            href="{% url 'logout' %}"
+            class="flex items-center py-3 px-4 hover:bg-blue-500 rounded-lg transition-all duration-200 group"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-3 transform group-hover:rotate-180 transition-transform duration-200"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span class="font-medium">Logout  </span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="flex-1 p-8">
+        <div class="max-w-2xl mx-auto">
+          <div
+            class="bg-white rounded-xl shadow-lg p-8 backdrop-blur-sm bg-white/90"
+          >
+            <h1 class="text-3xl font-bold mb-8 text-gray-800 border-b pb-4">
+              Account Information
+            </h1>
+
+            <div class="space-y-6">
+              <!-- Profile Summary Card -->
+              <div class="bg-blue-50 rounded-lg p-6 border border-blue-100">
+                <div class="flex items-center space-x-4 mb-4">
+                  <div class="bg-blue-600 rounded-full p-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-8 w-8 text-white"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 class="text-xl font-semibold text-gray-800">
+                      {{ user.get_full_name|default:user.username }}
+                    </h2>
+                    <p class="text-gray-600">Account Details</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Account Details -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <p class="text-sm text-gray-600 mb-1">Username</p>
+                    <p class="font-semibold text-gray-800">
+                      {{ user.username }}
+                    </p>
+                  </div>
+                  <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <p class="text-sm text-gray-600 mb-1">Email Address</p>
+                    <p class="font-semibold text-gray-800">{{ user.email }}</p>
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <p class="text-sm text-gray-600 mb-1">First Name</p>
+                    <p class="font-semibold text-gray-800">
+                      {{ user.first_name|default:"Not set" }}
+                    </p>
+                  </div>
+                  <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
+                    <p class="text-sm text-gray-600 mb-1">Last Name</p>
+                    <p class="font-semibold text-gray-800">
+                      {{ user.last_name|default:"Not set" }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="flex justify-between items-center pt-6 border-t">
+                            
+
+                
+              </div>
+              <br />
+              <hr>
+              <a
+                href="{% url 'delete_account' %}"
+                class="text-red-600 hover:text-red-700 font-medium"
+              >
+                Delate Account
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
